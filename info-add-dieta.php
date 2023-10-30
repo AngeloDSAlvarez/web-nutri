@@ -11,7 +11,8 @@
     //array para armazenar o resultado
 
     $arrayAlimentos = array();
-
+    
+    //passa o resultado para o array
     while($row = mysqli_fetch_assoc($resultado)){
         $arrayAlimentos[] = $row;
     }

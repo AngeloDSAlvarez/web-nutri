@@ -36,14 +36,26 @@
                             informação pega pelo JSON carregado quando inicia a página.
                         -->
                     Nome Alimento
-                    <select> <!-- SELECT com os alimentos pego do JSON -->
-                            
-                        <option>Selecione um alimento</option>
-                        <option value="arroz">Arroz</option>
-                        <option value="feijao">Feijão</option>
-                        <option value="acem">Acem</option>
-                        <option value="sassami">Sassami</option>
+                    <select id="select-alimentos"> <!-- SELECT com os alimentos pego do JSON -->
+                        
                     </select>
+                    <!-- SCRIPT JS para adicionar os alimentos do JSON dentro das options -->
+                    <script>
+                        //usa o querySelector para pegar o select dos alimentos
+                        let selectAlimentos = document.querySelector("#select-alimentos");
+                        //pega o JSON de alimentos e transforma a resposta em "response"
+                        fetch("./jsons/alimentos.json").then((response) => {
+                            //converte a resposta em JSON e após for convertido (.then) possuo os "alimentos"
+                            response.json().then((alimentos) =>{
+                                //map pelo JSON de alimentos para percorrer por todos
+                                alimentos.map((alimento) => {
+                                    //innerHTML no "selectAlimentos" para inserir os alimentos no select
+                                    selectAlimentos.innerHTML += `<option value="${alimento.id_alimento}"> ${alimento.nome_alimento} </option>`;
+                                })
+                            })
+                        })
+                    </script>
+            
                 </label>
 
                 <label> <!-- Quantidade em ml/g -->
