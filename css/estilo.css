@@ -1,0 +1,122 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ESTILIZAÇÃO CABEÇALHO */
+.container-cabecalho {
+    width: 100vw;
+    height: 90px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    background: #038eb1;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.container-menu {
+    width: 100%;
+    font-weight: bold;
+}
+
+.container-menu a{
+    padding: 3px;
+    background-color: #005064;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+
+.container-menu a:hover{
+    background: #66c4db;
+    color: #000;
+}
+/*
+    CONTAINER PÁGINA PRINCIPAL
+*/
+.container-principal {
+    width: 100vw;
+    height: max-content;
+    display: flex;
+}
+
+/* 
+    CONTAINER DO CARD DE CLIENTES
+*/
+.container-card {
+    width: 750px;
+    height: max-content;
+    max-height: 700px;
+    display: flex;
+    float: left;
+}
+
+.card {
+    width: max-content;
+}
+
+/*
+    BARRA LATERAL DA PÁGINA
+*/
+.container-lateral{
+    width: 15%;
+    height: max-content;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*
+    CONTAINER COM INFORMAÇÕES DO CLIENTE NA BARRA LATERAL
+*/
+.container-info-cliente {
+    width: max-content;
+    max-width: 90%;
+    overflow: hidden;
+    padding: 3%;
+    border: 1px solid #808080;
+    border-radius: 4%;
+}
+
+/*
+    CONTAINER CONTEUDO DA PAGINA
+*/
+.container-conteudo{
+    width: 80%;
+    margin-left: 2%;
+    border: 1px solid red;
+}
+
+/*
+    ESTILIZAÇÃO TABELA COM UMA REFEIÇÃO
+*/
+.table-refeicao {
+    border-collapse: collapse;
+    max-width: 90%;
+}
+.table-refeicao th, .table-refeicao td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+}
+
+/*
+    ESTILIZAÇÃO BOTÃO ADICIONAR DIETA
+*/
+.container-add-dieta { margin: 10px 0 0 0; }
+
+.container-add-dieta a{
+    width: 10%;
+    padding: 5px;
+
+    text-decoration: none;
+    color: #000;
+
+    border-radius: 5px;
+    background: rgb(238, 168, 37);
+}
