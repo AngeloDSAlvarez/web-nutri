@@ -16,7 +16,7 @@
 
     <div class="container-conteudo"> <!-- container conteudo -->
         <div class="container-add-dieta">
-            <a href="adicionar-dieta.php">Adicionar dieta</a>
+            <a href="info-add-dieta.php">Adicionar dieta</a>
         </div>
 
 

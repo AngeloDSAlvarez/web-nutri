@@ -37,10 +37,12 @@
                         -->
                     Nome Alimento
                     <select> <!-- SELECT com os alimentos pego do JSON -->
-                        <option>Arroz</option>
-                        <option>Feijão</option>
-                        <option>Acem</option>
-                        <option>Sassami</option>
+                            
+                        <option>Selecione um alimento</option>
+                        <option value="arroz">Arroz</option>
+                        <option value="feijao">Feijão</option>
+                        <option value="acem">Acem</option>
+                        <option value="sassami">Sassami</option>
                     </select>
                 </label>
 
