@@ -60,12 +60,14 @@
 
                 <label> <!-- Quantidade em ml/g -->
                     Quantidade (ml/g)
-                    <input type="number" placeholder="120" >
+                    <input id="quant_alimento" type="number" placeholder="120" >
                 </label>
 
                 <!-- botão para adicionar o alimento na refeição -->
-                <input type="button" value="Adicionar"> 
+                <input onclick="adicionarAlimento()" type="button" value="Adicionar"> 
             </div> <!-- fim da linha -->
+
+                
 
             <div class="linha-input"> <!-- Nova linha de input -->
                 <table class="table-refeicao"> <!-- tabela com os alimentos da refeição -->
@@ -77,7 +79,7 @@
                         <th>Gordura</th>
                         <th>Kcal</th>
                     </thead> <!-- fim cabeçalho tabela -->
-                    <tbody> <!-- corpo tabela -->
+                    <tbody id="body-tabela-alimentos"> <!-- corpo tabela -->
                         <td>Arroz</td>
                         <td>250</td>
                         <td>5</td>
@@ -86,6 +88,17 @@
                         <td>500</td>
                     </tbody> <!-- fim corpo tabela -->
                 </table> <!-- fim tabela com a refeição -->
+                <script>
+                    let bodyTabelaAlimentos = document.querySelector("#body-tabela-alimentos");
+                    console.log(alimentoRefeicao)
+                    if (typeof alimentosRefeicao != "undefined"){
+
+                    }else{
+                        alimentoRefeicao.map((ref) => {
+                        console.log();
+                        })
+                    }
+                </script>
             </div> <!-- fim linha -->
 
             <div class="linha-input"> <!-- nova linha -->
