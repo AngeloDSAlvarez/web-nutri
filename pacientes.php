@@ -10,7 +10,8 @@
                     <div class="col-sm-6 mb-3 mb-sm-0">
                       <div class="card">
                         <div class="card-body">
-                          <h5 class="card-title">Nome</h5>
+                          <h5 class="card-title">Angelo</h5>
+                          <p></p>
                           <a href="./dietas.php" class="btn btn-primary">Abrir</a>
                         </div>
                       </div>

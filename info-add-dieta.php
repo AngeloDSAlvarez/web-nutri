@@ -3,8 +3,9 @@
     $connection = mysqli_connect("localhost:3306", "root", "root", "nutri_db") or die ("Error: " . mysqli_error($connection));
 
     //query para pegar os alimentos do bd
-    $query = "SELECT * FROM alimentos_tbl
-              ORDER BY nome_alimento;";
+    $query = "  SELECT * FROM alimentos_tbl
+                JOIN nutrientes_tbl
+                ON alimentos_tbl.id_alimento = nutrientes_tbl.id_alimento; ";
 
     //executa a query
     $resultado = mysqli_query($connection, $query) or die ("Erro ao selecionar " . mysqli_error($connection));

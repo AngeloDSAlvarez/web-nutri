@@ -2,7 +2,10 @@
     require 'cabecalho.php';
 ?>
 
-
+<script>
+    //LIMPA O LOCALSTORAGE AO ATUALIZAR A PÁGINA
+    localStorage.clear();
+</script>
 <div class="container-principal"> <!-- container da página -->
     <div class="container-lateral"> <!-- sidebar da página -->
         <div class="container-info-cliente"> <!-- informações cliente -->
@@ -80,25 +83,10 @@
                         <th>Kcal</th>
                     </thead> <!-- fim cabeçalho tabela -->
                     <tbody id="body-tabela-alimentos"> <!-- corpo tabela -->
-                        <td>Arroz</td>
-                        <td>250</td>
-                        <td>5</td>
-                        <td>100</td>
-                        <td>0</td>
-                        <td>500</td>
+                        <!-- TODO O CORPO É GERADO PELO JS AO ADICIONAR NOVA REFEIÇÃO E ZERADO AO ATUALIZAR A PAGINA -->
                     </tbody> <!-- fim corpo tabela -->
                 </table> <!-- fim tabela com a refeição -->
-                <script>
-                    let bodyTabelaAlimentos = document.querySelector("#body-tabela-alimentos");
-                    console.log(alimentoRefeicao)
-                    if (typeof alimentosRefeicao != "undefined"){
-
-                    }else{
-                        alimentoRefeicao.map((ref) => {
-                        console.log();
-                        })
-                    }
-                </script>
+                
             </div> <!-- fim linha -->
 
             <div class="linha-input"> <!-- nova linha -->
