@@ -9,7 +9,7 @@ function atualizarTabela(array){
     //exclui o que possui no body atual da tabela
     bodyTabelaAlimentos.innerHTML = ` `;
     //transforma em JSON o array que recebeu como parametro
-    array = alimentoParaJson(array);
+    let jsonAlimentos = alimentoParaJson(array);
 
     //pega o JSON de alimentos e transforma a resposta em "response"
     fetch("./jsons/alimentos.json").then((response) => {
@@ -18,27 +18,24 @@ function atualizarTabela(array){
             //map pelo JSON de alimentos para percorrer por todos
             alimentos.map((alimento) => {
                 //percorre pelo array recebido como parametro
-                for(row in array){
+                for(row in jsonAlimentos){
                     //busca os dados dos alimentos que estão no array que foi adicionado
-                    if (array[row].id_alimento == alimento.id_alimento) {
+                    if (jsonAlimentos[row].id_alimento == alimento.id_alimento) {
                         //chamada do HTML para inserçã na tabela
                         bodyTabelaAlimentos.innerHTML += 
                         //prot, carb, gord e calorias são multiplicados pela quantidade de alimentos/100 para dar o resultado correto
                         `
                         <tr> 
                             <td>${alimento.nome_alimento}</td>
-                            <td>${array[row].quant_alimento}</td>
-                            <td>${array[row].quant_alimento / 100 * alimento.proteina}</td>
-                            <td>${array[row].quant_alimento / 100 * alimento.carboidrato}</td>
-                            <td>${array[row].quant_alimento / 100 * alimento.gordura}</td>
-                            <td>${array[row].quant_alimento / 100 * alimento.calorias}</td>
+                            <td>${jsonAlimentos[row].quant_alimento}</td>
+                            <td>${jsonAlimentos[row].quant_alimento / 100 * alimento.proteina}</td>
+                            <td>${jsonAlimentos[row].quant_alimento / 100 * alimento.carboidrato}</td>
+                            <td>${jsonAlimentos[row].quant_alimento / 100 * alimento.gordura}</td>
+                            <td>${jsonAlimentos[row].quant_alimento / 100 * alimento.calorias}</td>
                         </tr>
                         `
                     }
                 }
-
-                //innerHTML no "selectAlimentos" para inserir os alimentos no select
-                selectAlimentos.innerHTML += `<option value="${alimento.id_alimento}"> ${alimento.nome_alimento} </option>`;
             })
         })
     })
@@ -75,11 +72,65 @@ function alimentoParaJson(array){
     for (row in array){
         //concatena o que possui no json com o array
         json = json.concat({
-            "id_alimento": array[row][0],
-            "quant_alimento": array[row][1]
-        });
+            'id_alimento': array[row][0],
+            'quant_alimento': array[row][1]
+        },);
     }
     //retorna o json
     return json;
 }
 
+//adicionar os alimentos do JSON dentro das options
+function atualizaSelect(){
+    //usa o querySelector para pegar o select dos alimentos
+    let selectAlimentos = document.querySelector("#select-alimentos");
+    //pega o JSON de alimentos e transforma a resposta em "response"
+    fetch("./jsons/alimentos.json").then((response) => {
+        //converte a resposta em JSON e após for convertido (.then) possuo os "alimentos"
+        response.json().then((alimentos) =>{
+            //map pelo JSON de alimentos para percorrer por todos
+            selectAlimentos.innerHTML = ``;
+            alimentos.map((alimento) => {
+                //innerHTML no "selectAlimentos" para inserir os alimentos no select
+                selectAlimentos.innerHTML += `<option value="${alimento.id_alimento}"> ${alimento.nome_alimento} </option>`;
+            })
+        })
+    })
+}
+
+function formatoJsonPhp(jsonAlimentos){
+    let json = [];
+
+    let seletorInputs = document.querySelectorAll(".input-form-ref");
+
+    json = {
+        'nome-ref': seletorInputs[0].value,
+        'horario': seletorInputs[1].value,
+        'info-adicional': seletorInputs[2].value,
+        'alimentos': jsonAlimentos
+    }
+    return JSON.stringify(json);
+}
+
+
+function enviaProPhp(){
+    //transforma o array de alimentos em formato json
+    let jsonAlimentos = alimentoParaJson(alimentoRefeicao);
+    jsonRef = formatoJsonPhp(jsonAlimentos);
+    //utiliza o metodo stringify para enviar pelo ajax
+    
+    $.ajax({
+    url: 'inserir-dieta-db.php',
+    type: 'POST',
+    data: {data: jsonRef},
+    success: function(result){
+        console.log(result);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        // Retorno caso algum erro ocorra
+    }
+    });
+
+
+    
+}

@@ -21,6 +21,7 @@ CREATE TABLE nutrientes_tbl(
     
     CONSTRAINT fk_nutri_do_alimento FOREIGN KEY (id_alimento) REFERENCES alimentos_tbl(id_alimento)
 );
+DESC nutrientes_tbl;
 
 
 
@@ -36,6 +37,9 @@ CREATE TABLE pacientes_tbl(
 CREATE TABLE refeicoes_tbl(
 	id_ref INT PRIMARY KEY AUTO_INCREMENT,
     id_cliente INT NOT NULL,
+    nome_ref VARCHAR(200) NOT NULL,
+    info_adicional_ref VARCHAR(255),
+    horario_ref VARCHAR(5),
     ali_um INT,
 	quant_um FLOAT,
 	ali_dois INT,
@@ -57,6 +61,7 @@ CREATE TABLE refeicoes_tbl(
 	ali_dez INT,
 	quant_dez FLOAT,
     
+    CONSTRAINT fk_id_cliente FOREIGN KEY (id_cliente) REFERENCES pacientes_tbl(id_pac),
     CONSTRAINT fk_ali_um FOREIGN KEY (ali_um) REFERENCES alimentos_tbl(id_alimento),
     CONSTRAINT fk_ali_dois FOREIGN KEY (ali_dois) REFERENCES alimentos_tbl(id_alimento),
     CONSTRAINT fk_ali_tres FOREIGN KEY (ali_tres) REFERENCES alimentos_tbl(id_alimento),
@@ -69,6 +74,11 @@ CREATE TABLE refeicoes_tbl(
     CONSTRAINT fk_ali_dez FOREIGN KEY (ali_dez) REFERENCES alimentos_tbl(id_alimento)
 );
 
+DESC refeicoes_tbl;
+
+SELECT * FROM refeicoes_tbl;
+
+drop table refeicoes_tbl;
 CREATE TABLE dieta_tbl(
 	id_dieta INT PRIMARY KEY AUTO_INCREMENT,
     id_cliente INT NOT NULL,
@@ -96,6 +106,8 @@ CREATE TABLE dieta_tbl(
 
 );
 
+
+
 desc alimentos_tbl;
 
 ALTER TABLE alimentos_tbl
@@ -114,8 +126,39 @@ INSERT INTO alimentos_tbl (nome_alimento, tipo_medida, quantidade) VALUES
 ("Salmão", "gramas", 180),
 ("Abacaxi", "fatia", 6);
 
-SELECT * FROM alimentos_tbl;
+INSERT INTO alimentos_tbl (nome_alimento, tipo_medida, quantidade) VALUES
+("Sassami", "gramas", 100);
+
+	SELECT * FROM alimentos_tbl
+	JOIN nutrientes_tbl
+	ON alimentos_tbl.id_alimento = nutrientes_tbl.id_alimento; 
+
 
 INSERT INTO pacientes_tbl (nome_pac, sobrenome_pac, telefone_pac, cpf_pac, email_pac) VALUES
 ("Angelo Daniel", "Alvarez", "49998080639", "1134131231","angelodaniel1221@gmail.com"),
 ("Raíssa", "Bruder", "499992090", "3290390239", "raissabruder@gmail.com");
+
+
+INSERT INTO nutrientes_tbl (id_alimento, calorias, carboidrato, proteina, gordura, gordura_saturada, acucares) VALUES
+(12, 200, 50, 2, 0, 0, 0),
+(13, 220, 40, 4, 0, 0, 0),
+(14, 130, 3, 33, 0, 0, 0),
+(15, 160, 40, 1, 0, 0, 0),
+(16, 70, 10, 1, 0, 0, 0),
+(17, 105, 20, 1.5, 0, 0, 0);
+
+
+
+
+INSERT INTO refeicoes_tbl 
+(id_cliente, ali_um, quant_um, ali_dois, quant_dois, ali_tres, quant_tres, ali_quatro, quant_quatro, ali_cinco, quant_cinco, ali_seis, quant_seis, ali_sete, quant_sete, 
+ali_oito, quant_oito, ali_nove, quant_nove, ali_dez, quant_dez) VALUES
+(1, 12, 300, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+
+INSERT INTO refeicoes_tbl 
+    (id_cliente, nome_ref, info_adicional_ref, ali_um, quant_um, ali_dois, quant_dois, ali_tres, quant_tres, ali_quatro, quant_quatro, 
+    ali_cinco, quant_cinco, ali_seis, quant_seis, ali_sete, quant_sete, 
+    ali_oito, quant_oito, ali_nove, quant_nove, ali_dez, quant_dez) VALUES
+    (1, "Almoço", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ,null, null, null, null, null, null);
+
+SELECT * FROM refeicoes_tbl;	

@@ -25,11 +25,11 @@
             <div class="linha-input"> <!-- Separação por linha para os inputs -->
                 <label > <!-- Nome da refeição -->
                     Nome da Refeição
-                    <input type="text" placeholder="Desjejum" >
+                    <input class="input-form-ref" id="nome-refeicao" type="text" placeholder="Desjejum" >
                 </label>
                 <label > <!-- Horário da refeição -->
                     Horário
-                    <input type="text" placeholder="08:00" >
+                    <input class="input-form-ref" id="horario" type="text" placeholder="08:00" >
                 </label>
                 
             </div> <!-- fim linha -->
@@ -39,26 +39,9 @@
                             informação pega pelo JSON carregado quando inicia a página.
                         -->
                     Nome Alimento
-                    <select id="select-alimentos"> <!-- SELECT com os alimentos pego do JSON -->
-                        
-                    </select>
-                    <!-- SCRIPT JS para adicionar os alimentos do JSON dentro das options -->
-                    <script>
-                        //usa o querySelector para pegar o select dos alimentos
-                        let selectAlimentos = document.querySelector("#select-alimentos");
-                        //pega o JSON de alimentos e transforma a resposta em "response"
-                        fetch("./jsons/alimentos.json").then((response) => {
-                            //converte a resposta em JSON e após for convertido (.then) possuo os "alimentos"
-                            response.json().then((alimentos) =>{
-                                //map pelo JSON de alimentos para percorrer por todos
-                                alimentos.map((alimento) => {
-                                    //innerHTML no "selectAlimentos" para inserir os alimentos no select
-                                    selectAlimentos.innerHTML += `<option value="${alimento.id_alimento}"> ${alimento.nome_alimento} </option>`;
-                                })
-                            })
-                        })
-                    </script>
-            
+                    <select name="select-alimentos" id="select-alimentos"> <!-- SELECT com os alimentos pego do JSON -->
+                        <script>atualizaSelect()</script>
+                    </select>            
                 </label>
 
                 <label> <!-- Quantidade em ml/g -->
@@ -73,7 +56,7 @@
                 
 
             <div class="linha-input"> <!-- Nova linha de input -->
-                <table class="table-refeicao"> <!-- tabela com os alimentos da refeição -->
+                <table name="tabela-refeicao" id="tabela-refeicao" class="table-refeicao"> <!-- tabela com os alimentos da refeição -->
                     <thead> <!-- cabeçalho tabela -->
                         <th>Nome</th>
                         <th>Quantidade</th>
@@ -93,14 +76,14 @@
                 <label for="info-adicionais"> Informações Adicionais </label> <!-- informações adicionais da refeição-->
                 <br>
                 <!-- textarea com informações adicionais da tabela -->
-                <textarea id="info-adicionais" name="info-adicionais" rows="5" cols="55" maxlength="250"></textarea>
+                <textarea class="input-form-ref" id="info-adicionais" name="info-adicionais" rows="5" cols="55" maxlength="250"></textarea>
             </div> <!-- fim linha -->
 
             <!-- 
                 SUBMIT do formulario (adicionar diretamente ao banco de dados e abaixo é mostrado o que já está no BD)
 
             -->
-            <input type="submit" value="Adicionar Refeição">
+            <input onclick="enviaProPhp()" type="button" value="Adicionar Refeição">
         </form>
         <br>
         <hr>
