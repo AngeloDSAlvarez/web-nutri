@@ -161,4 +161,4 @@ INSERT INTO refeicoes_tbl
     ali_oito, quant_oito, ali_nove, quant_nove, ali_dez, quant_dez) VALUES
     (1, "Almoço", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ,null, null, null, null, null, null);
 
-SELECT * FROM refeicoes_tbl;	
+SELECT * FROM refeicoes_tbl;

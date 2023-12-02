@@ -98,17 +98,20 @@ function atualizaSelect(){
     })
 }
 
+//funcao para deixar no padrão de envia necessário pro ajax, recebe como parametro o json de alimentos
 function formatoJsonPhp(jsonAlimentos){
+    //cria variavel para receber o JSON
     let json = [];
-
+    //seleciona os inputs com a classe ".input-form-ref"
     let seletorInputs = document.querySelectorAll(".input-form-ref");
-
+    //seta a variavel json para o formato necessário
     json = {
         'nome-ref': seletorInputs[0].value,
         'horario': seletorInputs[1].value,
         'info-adicional': seletorInputs[2].value,
         'alimentos': jsonAlimentos
     }
+    //retorna o json já com o formato stringify
     return JSON.stringify(json);
 }
 
@@ -116,15 +119,17 @@ function formatoJsonPhp(jsonAlimentos){
 function enviaProPhp(){
     //transforma o array de alimentos em formato json
     let jsonAlimentos = alimentoParaJson(alimentoRefeicao);
+    //envia o json de alimentos para colocar no padrão necessário para o AJAX
     jsonRef = formatoJsonPhp(jsonAlimentos);
-    //utiliza o metodo stringify para enviar pelo ajax
     
+    //chama o ajax onde sera feito a inserção da refeição no banco de dados
     $.ajax({
-    url: 'inserir-dieta-db.php',
-    type: 'POST',
-    data: {data: jsonRef},
+    url: 'inserir-dieta-db.php', //envia os dados para a página 'inserir-dieta-db.php'
+    type: 'POST', //método post
+    data: {data: jsonRef}, //data com o JSON da refeição
     success: function(result){
         console.log(result);
+        localStorage.clear();
     },
     error: function(jqXHR, textStatus, errorThrown) {
         // Retorno caso algum erro ocorra
