@@ -1,5 +1,121 @@
 <?php
     require 'cabecalho.php';
+
+    session_start();
+    
+    // Função para executar a query para cada refeição dentro do arrayRef
+    // E chamaar a função para imprimir a descrição da tabela e a tabela em si
+    function imprimeRefeicao($arrayRef){
+        //torna a variavel $pdo utilizavel dentro da função
+        global $pdo;
+
+        //query para pegar os dados da refeição
+        $query = '
+        SELECT * FROM refeicoes_tbl
+        WHERE id_ref = ?;
+        ';
+
+        //prepara a query
+        $query = $pdo->prepare($query);
+
+        //foreach para cada refeição dentro do array
+        foreach ($arrayRef as $ref){
+            //altera o ? da query para a refeição atual
+            $query->bindValue(1, $ref);
+            $query->execute();
+            //realiza o fetch no resultado (possui apenas 1 linha) e armazena no $resultado
+            $resultado = $query->fetch();
+
+            //chama função para imprimir a descrição da refeição, enviando o $resultado como parametro
+            imprimeDescricaoRef($resultado);
+            
+            //chama função para imprimir a tabela da refeição, enviando o $resultado como parametro
+            imprimeTabelaAlimento($resultado);
+        }
+    }
+    //imprime a descrição da refeição que fica acima da tabela
+    function imprimeDescricaoRef($ref){
+        echo '<h3>', $ref['nome_ref'],'</h3>
+        <p>',$ref['horario_ref'],' | ', $ref['info_adicional_ref'],'</p>';
+    }
+
+    //imprime a tabela de alimentos
+    function imprimeTabelaAlimento($ref){
+        //recebe os valores dos alimentos que estão no JSON
+        $url = "./jsons/alimentos.json";
+        $data = file_get_contents($url);
+        //realiza um "decode" do JSON
+        $alimentos = json_decode($data, true);
+        //echo para o cabeçalho da tabela e o inicio do tbody
+        echo '
+        <table class="table-refeicao">
+            <thead>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Proteina</th>
+                <th>Carboidrato</th>
+                <th>Gordura</th>
+                <th>Kcal</th>
+            </thead>
+            <tbody>';
+        //loop para percorrer todos os alimentos do json
+        foreach($alimentos as $ali){
+            //loop para percorrer por todo o select da refeição
+            for ($j = 5; $j < 24; $j++){
+                //verifica se o id do alimento é igual ao da refeição "ali_um", "ali_dois", etc.
+                if ($ali['id_alimento'] == $ref[$j]){
+                    //chama a função para imprimir a linha "<tr>" enviando os dados do alimento recebido do json e a quantidade
+                    imprimeLinhaAlimento($ali, $ref[$j+1]);
+                }
+            }
+        }
+        //echo para o fim do tbody e da tabela
+        echo
+            '</tbody>
+        </table>';
+    }
+
+    //função para imprimir a linha do alimento dentro da tabela da refeição
+    //recebe os dados do alimento recebido do json e quantidade do alimento recebido pelo select no BD de ref "quant_um", "quanto_dois", etc
+    function imprimeLinhaAlimento($alimentos, $quant){
+        //echo para a linha da tabela
+        //nas informações de proteina, carb, gord, etc. faz a quantidade recebida /100 e multiplica o valor
+        //pois o valor no json é a cada 100g
+        echo '
+            <tr>
+                <td>',$alimentos['nome_alimento'],'</td>
+                <td>',$quant,'</td>
+                <td>',$alimentos['proteina'] * ($quant/100),'</td>
+                <td>',$alimentos['carboidrato'] * ($quant/100),'</td>
+                <td>',$alimentos['gordura'] * ($quant/100),'</td>
+                <td>',$alimentos['calorias'] * ($quant/100),'</td>
+            </tr>
+        ';
+    }
+    
+    //verifica se o array-ref dentro da _SESSION está setado, indicando que já foi adicionado uma refeição a dieta
+    if (isset($_SESSION['array-ref'])) {
+        //conexão BD
+        $pdo = new PDO('mysql:host=localhost; dbname=nutri_db;', 'root', 'root');
+        $_SESSION['ref-alimentos'] = [];
+    
+        //querya com o select de refeições
+        $querySelectRef = 'SELECT id_ref FROM refeicoes_tbl WHERE id_ref = ?';
+        
+        //loop para percorrer pelo array de refeições
+        for ($i = 0; $i < count($_SESSION['array-ref']); $i++) {
+            //prepara a busca com a query
+            $stmt = $pdo->prepare($querySelectRef);
+            //altera o ? para o id do alimento 
+            $stmt->bindValue(1, $_SESSION['array-ref'][$i]);
+            //executa a query
+            $stmt->execute();
+            //realiza um fetch para o resultado obtido
+            $resultado = $stmt->fetchAll();
+            //armazena no array ref-alimentos dentro da _SESSION
+            $_SESSION['ref-alimentos'] = array_merge($_SESSION['ref-alimentos'], $resultado);
+        }
+    }
 ?>
 
 <script>
@@ -89,26 +205,14 @@
         <hr>
         <br>
         <h1>Plano Alimentar</h1>
-        <h3>Almoço</h3>
-        <p>12:00 | Informações Adicionais</p>
-        <table class="table-refeicao">
-            <thead>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Proteina</th>
-                <th>Carboidrato</th>
-                <th>Gordura</th>
-                <th>Kcal</th>
-            </thead>
-            <tbody>
-                <td>Arroz</td>
-                <td>250</td>
-                <td>5</td>
-                <td>100</td>
-                <td>0</td>
-                <td>500</td>
-            </tbody>
-        </table>
+        <!-- DESCRIÇÃO DA REFEIÇÃO FEITA PELA FUNÇÃO imprimeDescricaoRef() -->
+       
+                <?php
+                    //verifica 
+                    if (isset($_SESSION['array-ref'])) {
+                        imprimeRefeicao($_SESSION['array-ref']);
+                    }
+                ?>
         
     </div>
 

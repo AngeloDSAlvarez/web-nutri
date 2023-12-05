@@ -19,11 +19,11 @@
         WHERE id_ref = LAST_INSERT_ID();';
         global $pdo;
         //cria um query preparada pelo PDO para pesquisar o ultimo ID inserido na tabela de refeições
-        $teste = $pdo->prepare($queryLastId);
+        $stmt = $pdo->prepare($queryLastId);
         //executa a query
-        $teste->execute();
+        $stmt->execute();
         //realiza um fetch para criar um array e armazenar na variavel resultado
-        $resultado = $teste->fetch();
+        $resultado = $stmt->fetch();
         $resultadoArray = [$resultado[0]];
         $_SESSION['array-ref'] = array_merge($_SESSION['array-ref'],$resultadoArray);
     }
