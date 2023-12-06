@@ -2,6 +2,13 @@
     require 'cabecalho.php';
 
     session_start();
+
+    function verificaArrayRef() {
+        //verifica se a variável 'array-ref' existe na _SESSION
+        if (isset($_SESSION['array-ref'])) {
+            imprimeRefeicao($_SESSION['array-ref']);
+        }
+    }
     
     // Função para executar a query para cada refeição dentro do arrayRef
     // E chamaar a função para imprimir a descrição da tabela e a tabela em si
@@ -137,7 +144,7 @@
         <h2>
             Novo plano alimentar
         </h2>
-        <form> <!-- FORM PARA ADICIONAR REFEIÇÃO -->
+        <form > <!-- FORM PARA ADICIONAR REFEIÇÃO -->
             <div class="linha-input"> <!-- Separação por linha para os inputs -->
                 <label > <!-- Nome da refeição -->
                     Nome da Refeição
@@ -206,14 +213,16 @@
         <br>
         <h1>Plano Alimentar</h1>
         <!-- DESCRIÇÃO DA REFEIÇÃO FEITA PELA FUNÇÃO imprimeDescricaoRef() -->
-       
-                <?php
-                    //verifica 
-                    if (isset($_SESSION['array-ref'])) {
-                        imprimeRefeicao($_SESSION['array-ref']);
-                    }
-                ?>
+        <div id="divInfoRef">
+            <?php
+                verificaArrayRef();
+            ?>
+        </div>
         
+
+        <form action="adicionar-dieta-db.php" method="post">
+            <input type="submit" value="Adicionar Dieta">
+        </form>
     </div>
 
 </div> <!-- Fim container da página-->

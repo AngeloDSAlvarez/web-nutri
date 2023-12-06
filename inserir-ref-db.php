@@ -81,8 +81,6 @@
     //retorna se a query foi bem sucedidade ou não
     if ($query->rowCount() >= 1){
         armazenaArrayRef();
-        echo json_encode($_SESSION['array-ref']);
-        
     }else {
         echo json_encode("Erro ao salvar");
     }

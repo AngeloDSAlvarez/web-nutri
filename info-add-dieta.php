@@ -27,5 +27,6 @@
     fclose($jsonAlimentos);
 
     //encaminha para a pagina de adicionar a dieta
-    header ('Location: ./adicionar-dieta.php')
+    header ('Location: ./adicionar-dieta.php');
+
 ?>

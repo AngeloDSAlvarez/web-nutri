@@ -124,12 +124,17 @@ function enviaProPhp(){
     
     //chama o ajax onde sera feito a inserção da refeição no banco de dados
     $.ajax({
-    url: 'inserir-dieta-db.php', //envia os dados para a página 'inserir-dieta-db.php'
+    url: 'inserir-ref-db.php', //envia os dados para a página 'inserir-dieta-db.php'
     type: 'POST', //método post
     data: {data: jsonRef}, //data com o JSON da refeição
     success: function(result){
         console.log(result);
         localStorage.clear();
+        
+        let divRef = document.getElementById("divInfoRef");
+        console.log(divRef);
+        location.reload();
+        //divRef.innerHTML = (`<?php verificaArrayRef(); ?>`)
     },
     error: function(jqXHR, textStatus, errorThrown) {
         // Retorno caso algum erro ocorra
